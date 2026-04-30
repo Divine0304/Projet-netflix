@@ -104,7 +104,13 @@ const films = [
       points: 300,
     },
     {
-        
+        id: "day_shift",
+      title: "Day Shift",
+      answers: ["day shift"],
+      hint: "Un chasseur de vampires à Los Angeles...",
+      object: "vampire",
+      color: 0x4b0082,
+      points: 300,
     }
       ]
          
