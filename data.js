@@ -140,9 +140,10 @@ const films = [
       color: 0x1c3a1c,
       points: 300,
     },
-    {
-        
-    }
+
+  ],
+  difficile: [
+    
 
       ]
          
