@@ -10,4 +10,12 @@ const films = [
       points: 100,
     },
     {
+      id: "bird_box",
+      title: "Bird Box",
+      answers: ["bird box"],
+      hint: "Ne jamais ouvrir les yeux dehors...",
+      object: "blindfold",
+      color: 0xf5f5dc,
+      points: 100,
+    },
 
