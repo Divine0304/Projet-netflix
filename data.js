@@ -46,6 +46,16 @@ const films = [
       points: 100,
     },
 ],
-     facile: []
+     facile: [
+         {
+      id: "army_of_dead",
+      title: "Army of the Dead",
+      answers: ["army of the dead", "army of dead"],
+      hint: "Un coffre-fort au milieu d'une ville de zombies...",
+      object: "safe",
+      color: 0x8b7355,
+      points: 200,
+    },
+     ]
          {
 
