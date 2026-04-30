@@ -27,4 +27,13 @@ const films = [
       color: 0x2d5a27,
       points: 100,
     },
+    {
+      id: "stranger_things",
+      title: "Stranger Things",
+      answers: ["stranger things"],
+      hint: "Une petite ville, un monde à l'envers...",
+      object: "lights",
+      color: 0xff6600,
+      points: 100,
+    },
 
