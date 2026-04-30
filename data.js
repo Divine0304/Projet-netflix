@@ -91,6 +91,9 @@ const films = [
       object: "tornado",
       color: 0x4169e1,
       points: 200,
+    },
+    {
+        
     }
      ]
          
