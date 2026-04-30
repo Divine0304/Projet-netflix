@@ -131,7 +131,19 @@ const films = [
       color: 0x3d1c02,
       points: 300,
     },
-    {}
+    {
+      id: "le_rituel",
+      title: "Le Rituel",
+      answers: ["le rituel", "the ritual"],
+      hint: "Un dieu nordique oublié rôde dans la forêt suédoise...",
+      object: "antler",
+      color: 0x1c3a1c,
+      points: 300,
+    },
+    {
+        
+    }
+
       ]
          
 
