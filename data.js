@@ -65,6 +65,18 @@ const films = [
       color: 0x696969,
       points: 200,
     },
+    {
+        id: "sous_la_seine",
+      title: "Sous la Seine",
+      answers: ["sous la seine", "under paris"],
+      hint: "Un prédateur dans la capitale française...",
+      object: "fin",
+      color: 0x1a5276,
+      points: 200,
+    },
+    {
+        
+    }
      ]
-         {
+         
 
