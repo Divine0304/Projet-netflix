@@ -64,7 +64,7 @@ const films = [
       object: "troll",
       color: 0x696969,
       points: 200,
-    }
+    },
      ]
          {
 
