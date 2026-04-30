@@ -94,7 +94,15 @@ const films = [
     },
 ],
       moyen: [
-        
+        {
+      id: "sans_bruit",
+      title: "Sans un Bruit",
+      answers: ["sans un bruit", "a quiet place"],
+      hint: "Le moindre son peut être fatal...",
+      object: "silence",
+      color: 0xd4af37,
+      points: 300,
+    },
       ]
          
 
