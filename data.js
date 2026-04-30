@@ -113,8 +113,15 @@ const films = [
       points: 300,
     },
     {
-        
-    }
+
+      id: "the_silence",
+      title: "The Silence",
+      answers: ["the silence", "le silence"],
+      hint: "Des créatures aveugles qui chassent au son...",
+      object: "vesp",
+      color: 0x8b8682,
+      points: 300,
+    },
       ]
          
 
