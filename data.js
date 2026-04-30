@@ -143,6 +143,15 @@ const films = [
 
   ],
   difficile: [
+    {
+      id: "personne_ne_sort",
+      title: "Personne ne Sort d'Ici Vivant",
+      answers: ["personne ne sort d'ici vivant", "no one gets out alive"],
+      hint: "Une pension glauque et une boîte qui ne devrait pas exister...",
+      object: "stonebox",
+      color: 0x4a4a4a,
+      points: 500,
+    },
     
 
       ]
