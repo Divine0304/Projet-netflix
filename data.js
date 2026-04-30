@@ -84,7 +84,13 @@ const films = [
       points: 200,
     },
     {
-        
+        id: "sharknado",
+      title: "Nature Prédatrice",
+      answers: ["nature predatrice", "nature prédatrice", "sharknado"],
+      hint: "Quand les tornades rencontrent les requins...",
+      object: "tornado",
+      color: 0x4169e1,
+      points: 200,
     }
      ]
          
