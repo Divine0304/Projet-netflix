@@ -36,4 +36,13 @@ const films = [
       color: 0xff6600,
       points: 100,
     },
+    {
+      id: "frankenstein",
+      title: "Frankenstein",
+      answers: ["frankenstein"],
+      hint: "Créé par la science, rejeté par les hommes...",
+      object: "monster",
+      color: 0x4a7c59,
+      points: 100,
+    },
 
