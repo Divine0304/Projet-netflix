@@ -111,6 +111,9 @@ const films = [
       object: "vampire",
       color: 0x4b0082,
       points: 300,
+    },
+    {
+        
     }
       ]
          
