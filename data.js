@@ -82,6 +82,9 @@ const films = [
       object: "snake",
       color: 0x2d5016,
       points: 200,
+    },
+    {
+        
     }
      ]
          
