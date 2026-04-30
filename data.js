@@ -56,6 +56,15 @@ const films = [
       color: 0x8b7355,
       points: 200,
     },
+    {
+      id: "troll",
+      title: "Troll",
+      answers: ["troll"],
+      hint: "Une créature de pierre réveillée dans les montagnes norvégiennes...",
+      object: "troll",
+      color: 0x696969,
+      points: 200,
+    }
      ]
          {
 
