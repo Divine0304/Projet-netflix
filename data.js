@@ -18,4 +18,13 @@ const films = [
       color: 0xf5f5dc,
       points: 100,
     },
+    {
+      id: "mercredi",
+      title: "Mercredi",
+      answers: ["mercredi", "wednesday"],
+      hint: "Une jeune fille sombre dans une académie étrange...",
+      object: "hand",
+      color: 0x2d5a27,
+      points: 100,
+    },
 
