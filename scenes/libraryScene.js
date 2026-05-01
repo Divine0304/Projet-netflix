@@ -74,3 +74,11 @@ export default function libraryScene() {
         stripe.position.y  = 0.4 + i * 1.0;
         scene.add(stripe);
       }
+
+    const ceilDisc = new THREE.Mesh(
+        new THREE.CircleGeometry(ROOM_RADIUS, 80),
+        new THREE.MeshStandardMaterial({ color: 0x080e09, roughness: 0.98, side: THREE.DoubleSide })
+      );
+      ceilDisc.rotation.x = Math.PI / 2;
+      ceilDisc.position.y  = ROOM_HEIGHT;
+      scene.add(ceilDisc);
