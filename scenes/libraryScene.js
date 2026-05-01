@@ -181,4 +181,19 @@ export default function libraryScene() {
         shelf.castShadow  = true;
         scene.add(shelf);
     });
+
+    for (let i = 0; i < 20; i++) {
+        const angle = (i / 20) * Math.PI * 2;
+        if (Math.abs(angle) < 0.3 || Math.abs(angle - Math.PI * 2) < 0.3) continue;
+        const mount = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.025, 0.025, 3.6, 6),
+          ironMat
+        );
+        mount.position.set(
+          Math.sin(angle) * (SHELF_RADIUS - 0.25),
+          1.8,
+          Math.cos(angle) * (SHELF_RADIUS - 0.25)
+        );
+        scene.add(mount);
+    }
 }
