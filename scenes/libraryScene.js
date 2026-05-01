@@ -112,4 +112,11 @@ export default function libraryScene() {
 
       const chainMat = new THREE.MeshStandardMaterial({ color: 0x222222, metalness: 0.8, roughness: 0.4 });
       
+      const chain = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.025, 0.025, 2.5, 6),
+          chainMat
+        );
+        chain.position.set(0, ROOM_HEIGHT - 1.25, 0);
+        scene.add(chain);
+      
     }      
