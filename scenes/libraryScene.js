@@ -31,3 +31,11 @@ export default function libraryScene() {
     const ROOM_RADIUS  = 12;
   const ROOM_HEIGHT  = 7;
   const SHELF_RADIUS = ROOM_RADIUS - 0.2;
+
+  const floor = new THREE.Mesh(
+      new THREE.CircleGeometry(ROOM_RADIUS, 80),
+      new THREE.MeshStandardMaterial({ color: 0x130b04, roughness: 0.96, metalness: 0.03 })
+    );
+    floor.rotation.x = -Math.PI / 2;
+    floor.receiveShadow = true;
+    scene.add(floor);
