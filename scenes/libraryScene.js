@@ -252,4 +252,15 @@ export default function libraryScene() {
         hinge.position.set(sx * 0.55, 1.6 + sy * 0.95, ROOM_RADIUS - 0.02);
         scene.add(hinge);
     }
+
+    const doorGlow = new THREE.Mesh(
+        new THREE.PlaneGeometry(1.15, 0.06),
+        new THREE.MeshStandardMaterial({ color: 0x3366cc, emissive: 0x2244bb, emissiveIntensity: 1.5, side: THREE.DoubleSide })
+      );
+      doorGlow.position.set(0, 0.03, ROOM_RADIUS - 0.06);
+      scene.add(doorGlow);
+    
+      const coldDoorLight = new THREE.PointLight(0x2255dd, 3.0, 7);
+      coldDoorLight.position.set(0, 1.8, ROOM_RADIUS - 1.5);
+      scene.add(coldDoorLight);
 }
