@@ -119,4 +119,11 @@ export default function libraryScene() {
         chain.position.set(0, ROOM_HEIGHT - 1.25, 0);
         scene.add(chain);
       
+    const lustreRing = new THREE.Mesh(
+        new THREE.TorusGeometry(0.9, 0.04, 8, 32),
+        ironMat
+      );
+      lustreRing.rotation.x = Math.PI / 2;
+      lustreRing.position.y  = ROOM_HEIGHT - 2.5;
+      scene.add(lustreRing);
     }      
