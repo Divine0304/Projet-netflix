@@ -381,4 +381,15 @@ export default function libraryScene() {
       scene.add(ambient);
       const ambientCold = new THREE.AmbientLight(0xd0ead0, 1.2);
       scene.add(ambientCold);
+
+    const cursedGlow = new THREE.PointLight(0x00aa22, 2.0, 5.0);
+      cursedGlow.position.set(0, 0.05, 0);
+      scene.add(cursedGlow);
+    
+    const bloodLight  = new THREE.PointLight(0x990600, 4.0, 4.5);
+      bloodLight.position.set(0, ROOM_HEIGHT - 0.5, 0);
+      scene.add(bloodLight);
+      const bloodLight2 = new THREE.PointLight(0x660300, 3.0, 4.0);
+      bloodLight2.position.set(-4, ROOM_HEIGHT - 1.0, -4);
+      scene.add(bloodLight2);
 }
