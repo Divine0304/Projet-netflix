@@ -156,4 +156,15 @@ export default function libraryScene() {
         cFlame.position.set(cx, cy + 0.02, cz);
         scene.add(cFlame);
         lustreFlames.push({ mesh: cFlame, baseY: cy + 0.02 });
-    }      
+
+        const lfl = new THREE.PointLight(0xff9933, 1.2, 4.5);
+        lfl.position.set(cx, cy + 0.05, cz);
+        scene.add(lfl);
+     }  
+     
+    const lustreLight = new THREE.PointLight(0xffd080, 20.0, 25);
+      lustreLight.position.set(0, ROOM_HEIGHT - 2.4, 0);
+      lustreLight.castShadow = true;
+      lustreLight.shadow.mapSize.set(1024, 1024);
+      scene.add(lustreLight);
+}
