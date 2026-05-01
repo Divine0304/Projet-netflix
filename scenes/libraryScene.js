@@ -335,4 +335,50 @@ export default function libraryScene() {
         leg.position.set(px, 0.1, pz);
         scene.add(leg);
       }
+
+    const torchData = [];
+      for (let i = 0; i < 12; i++) {
+        const angle = (i / 12) * Math.PI * 2 + Math.PI / 12;
+        const tx = Math.sin(angle) * (ROOM_RADIUS - 0.8);
+        const tz = Math.cos(angle) * (ROOM_RADIUS - 0.8);
+        const ty = 2.6;
+    
+        const arm = new THREE.Mesh(new THREE.CylinderGeometry(0.016, 0.02, 0.26, 6), ironMat);
+        arm.rotation.z = Math.PI / 2;
+        arm.position.set(tx * 0.93, ty - 0.06, tz * 0.93);
+        scene.add(arm);
+    
+        const bowl = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.035, 0.08, 8), ironMat);
+        bowl.position.set(tx, ty - 0.07, tz);
+        scene.add(bowl);
+    
+        const flame = new THREE.Mesh(
+          new THREE.SphereGeometry(0.07, 8, 8),
+          new THREE.MeshStandardMaterial({ color: 0xffdd44, emissive: 0xff6600, emissiveIntensity: 5.5 })
+        );
+        flame.position.set(tx, ty, tz);
+        scene.add(flame);
+    
+        const halo = new THREE.Mesh(
+          new THREE.SphereGeometry(0.15, 8, 8),
+          new THREE.MeshStandardMaterial({ color: 0xff5500, emissive: 0xff3300, emissiveIntensity: 1.8, transparent: true, opacity: 0.16 })
+        );
+        halo.position.set(tx, ty, tz);
+        scene.add(halo);
+    
+        const tLight = new THREE.PointLight(0xff6600, 5.0, 7.5);
+        tLight.position.set(tx, ty, tz);
+        scene.add(tLight);
+
+        const tDown = new THREE.PointLight(0xff9944, 2.2, 4.0);
+        tDown.position.set(tx * 0.85, ty - 1.0, tz * 0.85);
+        scene.add(tDown);
+    
+        torchData.push({ light: tLight, flame, halo, base: 5.0 });
+      }
+
+      const ambient     = new THREE.AmbientLight(0xfff4e0, 2.5);
+      scene.add(ambient);
+      const ambientCold = new THREE.AmbientLight(0xd0ead0, 1.2);
+      scene.add(ambientCold);
 }
