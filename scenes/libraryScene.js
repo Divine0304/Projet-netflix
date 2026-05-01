@@ -309,4 +309,30 @@ export default function libraryScene() {
         page.rotation.x  = -Math.PI / 2 + s * 0.06;
         scene.add(page);
       }
+
+    const skull = new THREE.Mesh(
+        new THREE.SphereGeometry(0.1, 12, 10),
+        new THREE.MeshStandardMaterial({ color: 0xd8cca8, roughness: 0.84 })
+      );
+      skull.scale.set(1, 1.1, 0.88);
+      skull.position.set(-0.3, 0.88, 1.1);
+      scene.add(skull);
+
+      const chairSeat = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.15, 0.75), leatherMat);
+      chairSeat.position.set(1.0, 0.47, -0.5);
+      scene.add(chairSeat);
+      const chairBack = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.65, 0.13), leatherMat);
+      chairBack.position.set(1.0, 0.86, -0.84);
+      scene.add(chairBack);
+      const chairArmL = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.26, 0.75), leatherMat);
+      chairArmL.position.set(1.44, 0.62, -0.5);
+      scene.add(chairArmL);
+      const chairArmR = chairArmL.clone();
+      chairArmR.position.x = 0.56;
+      scene.add(chairArmR);
+      for (let px of [0.56, 1.44]) for (let pz of [-0.1, -0.85]) {
+        const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.033, 0.027, 0.2, 6), woodMat);
+        leg.position.set(px, 0.1, pz);
+        scene.add(leg);
+      }
 }
