@@ -196,4 +196,44 @@ export default function libraryScene() {
         );
         scene.add(mount);
     }
+
+    for (let i = 0; i < 6; i++) {
+        const ang = (i / 6) * Math.PI * 2 + 0.3;
+        const r   = SHELF_RADIUS - 0.6;
+        const sl  = new THREE.PointLight(0xffcc66, 2.8, 5.5);
+        sl.position.set(Math.sin(ang) * r, 0.7, Math.cos(ang) * r);
+        scene.add(sl);
+    }
+
+    for (let i = 0; i < 6; i++) {
+        const ang = (i / 6) * Math.PI * 2 + 0.3;
+        const r   = SHELF_RADIUS - 0.6;
+        const sl  = new THREE.PointLight(0xffcc66, 2.8, 5.5);
+        sl.position.set(Math.sin(ang) * r, 0.7, Math.cos(ang) * r);
+        scene.add(sl);
+    }
+
+    for (let i = 0; i < 6; i++) {
+        const ang = (i / 6) * Math.PI * 2 + 0.6;
+        const r   = SHELF_RADIUS - 0.6;
+        const sl  = new THREE.PointLight(0xff8833, 2.0, 4.5);
+        sl.position.set(Math.sin(ang) * r, 1.45, Math.cos(ang) * r);
+        scene.add(sl);
+    }
+    
+    for (let i = 0; i < 4; i++) {
+        const ang = (i / 4) * Math.PI * 2 + 1.0;
+        const r   = SHELF_RADIUS - 0.6;
+        const sl  = new THREE.PointLight(0x226622, 1.5, 4.0);
+        sl.position.set(Math.sin(ang) * r, 2.25, Math.cos(ang) * r);
+        scene.add(sl);
+    }
+    
+    for (let i = 0; i < 4; i++) {
+        const ang = (i / 4) * Math.PI * 2 + 1.4;
+        const r   = SHELF_RADIUS - 0.6;
+        const sl  = new THREE.PointLight(0x660000, 1.8, 3.5);
+        sl.position.set(Math.sin(ang) * r, 3.1, Math.cos(ang) * r);
+        scene.add(sl);
+    }
 }
