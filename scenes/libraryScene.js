@@ -39,3 +39,23 @@ export default function libraryScene() {
     floor.rotation.x = -Math.PI / 2;
     floor.receiveShadow = true;
     scene.add(floor);
+
+    for (let i = 0; i < 8; i++) {
+        const angle = (i / 8) * Math.PI * 2;
+        const branch = new THREE.Mesh(
+          new THREE.BoxGeometry(0.08, 0.005, 1.8),
+          new THREE.MeshStandardMaterial({ color: 0x1e0a00, roughness: 0.98 })
+        );
+        branch.rotation.y = angle;
+        branch.position.y = 0.003;
+        scene.add(branch);
+      }
+      const rosaceRing = new THREE.Mesh(
+        new THREE.RingGeometry(0.8, 1.0, 48),
+        new THREE.MeshStandardMaterial({ color: 0x1e0a00, roughness: 0.98, side: THREE.DoubleSide })
+      );
+      rosaceRing.rotation.x = -Math.PI / 2;
+      rosaceRing.position.y = 0.004;
+      scene.add(rosaceRing);
+
+      
