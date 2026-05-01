@@ -63,4 +63,14 @@ export default function libraryScene() {
         new THREE.MeshStandardMaterial({ color: 0x0c1a0d, roughness: 0.99, side: THREE.BackSide })
       );
       wall.position.y = ROOM_HEIGHT / 2;
-      scene.add(wall); 
+      scene.add(wall);
+      
+    for (let i = 0; i < 7; i++) {
+        const stripe = new THREE.Mesh(
+          new THREE.TorusGeometry(ROOM_RADIUS - 0.03, 0.02, 4, 100),
+          new THREE.MeshStandardMaterial({ color: 0x070d07, roughness: 1.0 })
+        );
+        stripe.rotation.x = Math.PI / 2;
+        stripe.position.y  = 0.4 + i * 1.0;
+        scene.add(stripe);
+      }
