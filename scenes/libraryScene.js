@@ -89,3 +89,16 @@ export default function libraryScene() {
       );
       ceilDome.position.y = ROOM_HEIGHT - 0.1;
       scene.add(ceilDome);
+
+    const ironMat = new THREE.MeshStandardMaterial({ color: 0x111111, roughness: 0.45, metalness: 0.75 });
+      for (let i = 0; i < 8; i++) {
+        const angle = (i / 8) * Math.PI * 2;
+        const rib   = new THREE.Mesh(
+          new THREE.BoxGeometry(0.06, 0.06, ROOM_RADIUS * 0.88),
+          ironMat
+        );
+        rib.position.y  = ROOM_HEIGHT - 0.05;
+        rib.rotation.y  = angle;
+        rib.rotation.x  = Math.PI * 0.1;
+        scene.add(rib);
+      }
