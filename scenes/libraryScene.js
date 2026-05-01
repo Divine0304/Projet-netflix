@@ -392,4 +392,109 @@ export default function libraryScene() {
       const bloodLight2 = new THREE.PointLight(0x660300, 3.0, 4.0);
       bloodLight2.position.set(-4, ROOM_HEIGHT - 1.0, -4);
       scene.add(bloodLight2);
+
+    const avatarGroup = new THREE.Group();
+      avatarGroup.position.set(0, 0, 0);
+      scene.add(avatarGroup);
+    
+      camera.position.set(0, 1.65, 0);
+      camera.rotation.set(0, 0, 0);
+      avatarGroup.add(camera);
+    
+      const meshMap  = libraryObjects.placeObjects(scene, films, SHELF_RADIUS, scoreState);
+      const allMeshes = Object.values(meshMap).flat();
+   
+      const raycaster = new THREE.Raycaster();
+      const pointer   = new THREE.Vector2();
+      let hoveredFilmId = null;
+      let quizOpen      = false;
+    
+      const tooltip = document.createElement("div");
+      tooltip.id = "lib-tooltip";
+      tooltip.style.cssText = `
+        position:fixed; pointer-events:none; display:none;
+        background:rgba(4,10,4,0.94); border:1px solid #2a5a2a;
+        color:#88ff88; font-family:'Palatino Linotype',serif;
+        padding:8px 16px; border-radius:4px; font-size:13px;
+        letter-spacing:0.05em; z-index:100;
+        text-shadow:0 0 8px #00ff00;
+      `;
+      document.body.appendChild(tooltip);
+    
+      canvas.addEventListener("mousemove", (e) => {
+        if (quizOpen) return;
+        pointer.x = (e.clientX / window.innerWidth)  * 2 - 1;
+        pointer.y = -(e.clientY / window.innerHeight) * 2 + 1;
+        tooltip.style.left = (e.clientX + 16) + "px";
+        tooltip.style.top  = (e.clientY - 10)  + "px";
+      });
+    
+      canvas.addEventListener("click", (e) => {
+        if (introActive) return;
+        if (document.pointerLockElement !== canvas && !quizOpen) {
+          canvas.requestPointerLock();
+          return;
+        }
+        if (quizOpen) return;
+        const fpPointer = new THREE.Vector2(0, 0);
+        raycaster.setFromCamera(fpPointer, camera);
+        const hits = raycaster.intersectObjects(allMeshes);
+        if (hits.length > 0) {
+          const { filmId, level, film } = hits[0].object.userData;
+          if (!scoreState.unlocked.includes(level)) {
+            showToast("🔒 Niveau verrouillé — complète le niveau précédent !");
+            return;
+          }
+          document.exitPointerLock();
+          quizOpen = true;
+          libraryQuiz.openQuiz(film, level, (result, newState) => {
+            scoreState = newState;
+            quizOpen   = false;
+            updateHUD();
+            const meshes = meshMap[filmId];
+            if (meshes && result === "success") {
+              meshes.forEach(m => {
+                if (m.material) { m.material = m.material.clone(); m.material.emissive = new THREE.Color(0xffd700); m.material.emissiveIntensity = 0.5; }
+              });
+            } else if (meshes && result === "fail") {
+              meshes.forEach(m => {
+                if (m.material) { m.material = m.material.clone(); m.material.color = new THREE.Color(0x333333); }
+              });
+            }
+          });
+        }
+      });
+
+      const hud = document.createElement("div");
+      hud.id    = "lib-hud";
+      hud.style.cssText = `
+        position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
+        background:rgba(2,8,2,0.9); border:1px solid #1a4a1a;
+        color:#70c870; font-family:'Palatino Linotype',serif;
+        padding:10px 28px; border-radius:6px; font-size:14px;
+        letter-spacing:0.08em; z-index:50; display:flex; gap:28px;
+        backdrop-filter:blur(4px); text-shadow:0 0 6px #004400;
+        box-shadow:0 0 20px rgba(0,80,0,0.3);
+      `;
+      document.body.appendChild(hud);
+    
+      function updateHUD() {
+        const total = 20;
+        const done  = scoreState.completed.length + scoreState.failed.length;
+        hud.innerHTML = `
+          <span>🕯️ <strong>${scoreState.score}</strong> pts</span>
+          <span>✅ <strong>${scoreState.completed.length}/${total}</strong></span>
+          <span>📖 <strong>${done}/${total}</strong> tentés</span>
+          <button id="hud-reset" style="background:none;border:1px solid #1a4a1a;color:#508050;
+            cursor:pointer;font-family:inherit;font-size:12px;padding:2px 10px;border-radius:3px;">↺ Reset</button>
+        `;
+        document.getElementById("hud-reset").addEventListener("click", () => {
+          if (confirm("Réinitialiser toute la progression ?")) {
+            scoreState = libraryScore.reset();
+            libraryQuiz.init(scoreState);
+            location.reload();
+          }
+        });
+      }
+      updateHUD();
 }
