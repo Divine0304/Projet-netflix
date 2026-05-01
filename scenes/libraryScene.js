@@ -109,4 +109,7 @@ export default function libraryScene() {
       ceilMedaillon.rotation.x = Math.PI / 2;
       ceilMedaillon.position.y  = ROOM_HEIGHT - 0.05;
       scene.add(ceilMedaillon);
+
+      const chainMat = new THREE.MeshStandardMaterial({ color: 0x222222, metalness: 0.8, roughness: 0.4 });
+      
     }      
