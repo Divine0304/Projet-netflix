@@ -126,4 +126,12 @@ export default function libraryScene() {
       lustreRing.rotation.x = Math.PI / 2;
       lustreRing.position.y  = ROOM_HEIGHT - 2.5;
       scene.add(lustreRing);
+
+    const lustreRingInner = new THREE.Mesh(
+        new THREE.TorusGeometry(0.45, 0.03, 8, 24),
+        ironMat
+      );
+      lustreRingInner.rotation.x = Math.PI / 2;
+      lustreRingInner.position.y  = ROOM_HEIGHT - 2.5;
+      scene.add(lustreRingInner);
     }      
