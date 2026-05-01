@@ -236,4 +236,20 @@ export default function libraryScene() {
         sl.position.set(Math.sin(ang) * r, 3.1, Math.cos(ang) * r);
         scene.add(sl);
     }
+
+    const woodMat = new THREE.MeshStandardMaterial({ color: 0x0f0703, roughness: 0.95 });
+    
+      const doorFrame = new THREE.Mesh(new THREE.BoxGeometry(1.6, 3.2, 0.2), woodMat);
+      doorFrame.position.set(0, 1.6, ROOM_RADIUS - 0.12);
+      scene.add(doorFrame);
+    
+      const doorPanel = new THREE.Mesh(new THREE.BoxGeometry(1.25, 2.8, 0.09), woodMat);
+      doorPanel.position.set(0, 1.6, ROOM_RADIUS - 0.04);
+      scene.add(doorPanel);
+    
+      for (let sx of [-1, 1]) for (let sy of [-1, 1]) {
+        const hinge = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.2, 0.07), ironMat);
+        hinge.position.set(sx * 0.55, 1.6 + sy * 0.95, ROOM_RADIUS - 0.02);
+        scene.add(hinge);
+    }
 }
