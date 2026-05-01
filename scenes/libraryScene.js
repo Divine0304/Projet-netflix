@@ -134,4 +134,26 @@ export default function libraryScene() {
       lustreRingInner.rotation.x = Math.PI / 2;
       lustreRingInner.position.y  = ROOM_HEIGHT - 2.5;
       scene.add(lustreRingInner);
+
+    const lustreFlames = [];
+      for (let i = 0; i < 6; i++) {
+        const ang = (i / 6) * Math.PI * 2;
+        const cx  = Math.cos(ang) * 0.85;
+        const cz  = Math.sin(ang) * 0.85;
+        const cy  = ROOM_HEIGHT - 2.5;
+    
+        const cBod = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.025, 0.025, 0.15, 8),
+          new THREE.MeshStandardMaterial({ color: 0xeedd99, roughness: 0.95 })
+        );
+        cBod.position.set(cx, cy - 0.07, cz);
+        scene.add(cBod);
+    
+        const cFlame = new THREE.Mesh(
+          new THREE.SphereGeometry(0.03, 6, 6),
+          new THREE.MeshStandardMaterial({ color: 0xffcc44, emissive: 0xff8800, emissiveIntensity: 4.0 })
+        );
+        cFlame.position.set(cx, cy + 0.02, cz);
+        scene.add(cFlame);
+        lustreFlames.push({ mesh: cFlame, baseY: cy + 0.02 });
     }      
