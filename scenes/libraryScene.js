@@ -167,4 +167,18 @@ export default function libraryScene() {
       lustreLight.castShadow = true;
       lustreLight.shadow.mapSize.set(1024, 1024);
       scene.add(lustreLight);
+
+    const shelfHeights = [0.6, 1.35, 2.15, 3.0];
+      const shelfMat = new THREE.MeshStandardMaterial({ color: 0x160b03, roughness: 0.91, metalness: 0.05 });
+    
+      shelfHeights.forEach(h => {
+        const shelf = new THREE.Mesh(
+          new THREE.TorusGeometry(SHELF_RADIUS - 0.25, 0.065, 6, 120),
+          shelfMat
+        );
+        shelf.rotation.x = Math.PI / 2;
+        shelf.position.y  = h;
+        shelf.castShadow  = true;
+        scene.add(shelf);
+    });
 }
