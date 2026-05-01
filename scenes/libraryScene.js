@@ -293,4 +293,20 @@ export default function libraryScene() {
       candlePointLight.position.set(-0.8, 1.1, 0.8);
       candlePointLight.castShadow = true;
       scene.add(candlePointLight);
+
+    const grimoire = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.05, 0.26), woodMat);
+      grimoire.position.set(-0.8, 0.83, 0.8);
+      grimoire.rotation.y = 0.35;
+      scene.add(grimoire);
+    
+      for (let s of [-1, 1]) {
+        const page = new THREE.Mesh(
+          new THREE.PlaneGeometry(0.16, 0.24),
+          new THREE.MeshStandardMaterial({ color: 0xccbb77, roughness: 0.99, side: THREE.DoubleSide })
+        );
+        page.position.set(-0.8 + s * 0.06, 0.86, 0.8);
+        page.rotation.y  = 0.35 + s * 0.12;
+        page.rotation.x  = -Math.PI / 2 + s * 0.06;
+        scene.add(page);
+      }
 }
