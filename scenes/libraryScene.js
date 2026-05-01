@@ -58,4 +58,9 @@ export default function libraryScene() {
       rosaceRing.position.y = 0.004;
       scene.add(rosaceRing);
 
-      
+    const wall = new THREE.Mesh(
+        new THREE.CylinderGeometry(ROOM_RADIUS, ROOM_RADIUS, ROOM_HEIGHT, 80, 4, true),
+        new THREE.MeshStandardMaterial({ color: 0x0c1a0d, roughness: 0.99, side: THREE.BackSide })
+      );
+      wall.position.y = ROOM_HEIGHT / 2;
+      scene.add(wall); 
