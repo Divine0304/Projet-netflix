@@ -102,3 +102,11 @@ export default function libraryScene() {
         rib.rotation.x  = Math.PI * 0.1;
         scene.add(rib);
       }
+    const ceilMedaillon = new THREE.Mesh(
+        new THREE.TorusGeometry(1.2, 0.06, 8, 48),
+        ironMat
+      );
+      ceilMedaillon.rotation.x = Math.PI / 2;
+      ceilMedaillon.position.y  = ROOM_HEIGHT - 0.05;
+      scene.add(ceilMedaillon);
+    }      
