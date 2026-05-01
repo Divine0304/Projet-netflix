@@ -263,4 +263,15 @@ export default function libraryScene() {
       const coldDoorLight = new THREE.PointLight(0x2255dd, 3.0, 7);
       coldDoorLight.position.set(0, 1.8, ROOM_RADIUS - 1.5);
       scene.add(coldDoorLight);
+    
+    const leatherMat = new THREE.MeshStandardMaterial({ color: 0x3d0808, roughness: 0.84 });
+
+      const tableTop = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.55, 0.07, 28), woodMat);
+      tableTop.position.set(-0.8, 0.78, 0.8);
+      tableTop.castShadow = true;
+      scene.add(tableTop);
+    
+      const tableLeg = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.1, 0.78, 8), woodMat);
+      tableLeg.position.set(-0.8, 0.39, 0.8);
+      scene.add(tableLeg);
 }
