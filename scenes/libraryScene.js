@@ -274,4 +274,23 @@ export default function libraryScene() {
       const tableLeg = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.1, 0.78, 8), woodMat);
       tableLeg.position.set(-0.8, 0.39, 0.8);
       scene.add(tableLeg);
+
+    const candleBody = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.05, 0.05, 0.24, 10),
+        new THREE.MeshStandardMaterial({ color: 0xeedd99, roughness: 0.95 })
+      );
+      candleBody.position.set(-0.8, 0.94, 0.8);
+      scene.add(candleBody);
+    
+      const candleFlame = new THREE.Mesh(
+        new THREE.SphereGeometry(0.038, 8, 8),
+        new THREE.MeshStandardMaterial({ color: 0xffcc44, emissive: 0xff8800, emissiveIntensity: 3.5, transparent: true, opacity: 0.95 })
+      );
+      candleFlame.position.set(-0.8, 1.08, 0.8);
+      scene.add(candleFlame);
+    
+      const candlePointLight = new THREE.PointLight(0xff8833, 5.0, 7.0);
+      candlePointLight.position.set(-0.8, 1.1, 0.8);
+      candlePointLight.castShadow = true;
+      scene.add(candlePointLight);
 }
