@@ -82,3 +82,10 @@ export default function libraryScene() {
       ceilDisc.rotation.x = Math.PI / 2;
       ceilDisc.position.y  = ROOM_HEIGHT;
       scene.add(ceilDisc);
+
+    const ceilDome = new THREE.Mesh(
+        new THREE.SphereGeometry(ROOM_RADIUS * 0.75, 48, 24, 0, Math.PI * 2, 0, Math.PI * 0.38),
+        new THREE.MeshStandardMaterial({ color: 0x060c07, roughness: 1.0, side: THREE.BackSide })
+      );
+      ceilDome.position.y = ROOM_HEIGHT - 0.1;
+      scene.add(ceilDome);
