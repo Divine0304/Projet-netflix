@@ -497,4 +497,105 @@ export default function libraryScene() {
         });
       }
       updateHUD();
+
+    const ctrlHint = document.createElement("div");
+  ctrlHint.style.cssText = `
+    position:fixed; top:20px; right:20px;
+    background:rgba(2,8,2,0.8); border:1px solid #1a3a1a;
+    color:#508050; font-family:'Palatino Linotype',serif;
+    padding:8px 14px; border-radius:5px; font-size:12px;
+    letter-spacing:0.05em; z-index:50; line-height:1.8;
+    text-shadow:0 0 5px #003300;
+  `;
+  ctrlHint.innerHTML = `
+    <div style="color:#70c870;margin-bottom:4px;">Navigation</div>
+    ZQSD / Flèches · Se déplacer<br>
+    Clic · Capturer la souris (regard)<br>
+    Échap · Libérer la souris<br>
+    Clic objet · Défier
+  `;
+  document.body.appendChild(ctrlHint);
+
+  function showToast(msg) {
+    const t = document.createElement("div");
+    t.style.cssText = `
+      position:fixed;top:30px;left:50%;transform:translateX(-50%);
+      background:rgba(5,20,5,0.94);color:#80ff80;border:1px solid #1a5a1a;
+      font-family:'Palatino Linotype',serif;padding:10px 24px;
+      border-radius:6px;z-index:200;font-size:14px;pointer-events:none;
+      text-shadow:0 0 8px #00aa00;
+    `;
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 2600);
+  }
+
+   let introActive = true;
+  let introPhase  = 0;
+
+  const introOverlay = document.createElement("div");
+  introOverlay.style.cssText = `
+    position:fixed; inset:0; background:#000;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    z-index:500; transition:opacity 1.8s ease; cursor:pointer;
+  `;
+  introOverlay.innerHTML = `
+    <div id="intro-text" style="
+      color:#70c870; font-size:clamp(16px,2.5vw,26px);
+      text-align:center; line-height:2.2; letter-spacing:0.12em;
+      max-width:620px; padding:0 24px;
+      text-shadow:0 0 20px #00aa00, 0 0 50px #006600;
+      opacity:0; transition:opacity 2s ease;
+      font-family:'Palatino Linotype',serif;
+    ">
+      Bienvenue dans la<br>
+      <span style="font-size:1.45em;color:#a0ffa0;letter-spacing:0.2em;display:block;margin:8px 0;">
+        Bibliothèque Monstrueuse
+      </span>
+      <span style="font-size:0.75em;color:#508050;letter-spacing:0.06em;">
+        Tourne. Explore. Si tu oses!😈
+      </span>
+    </div>
+    <div id="intro-sub" style="
+      color:#2a5a2a; font-size:13px; margin-top:48px;
+      letter-spacing:0.2em; opacity:0; transition:opacity 2s ease 1.2s;
+      font-family:'Palatino Linotype',serif;
+    ">— CLIQUER POUR ENTRER —</div>
+  `;
+  document.body.appendChild(introOverlay);
+
+  setTimeout(() => {
+    document.getElementById("intro-text").style.opacity = "1";
+    document.getElementById("intro-sub").style.opacity  = "1";
+  }, 400);
+
+  introOverlay.addEventListener("click", () => {
+    if (introPhase !== 0) return;
+    introPhase = 1;
+    introOverlay.style.opacity = "0";
+    setTimeout(() => {
+      introOverlay.remove();
+      introActive = false;
+    }, 1800);
+  });
+
+  let yaw   = 0; 
+  let pitch = 0; 
+
+  canvas.addEventListener("click", () => {
+    if (!quizOpen && !introActive) canvas.requestPointerLock();
+  }, true);
+
+  document.addEventListener("pointerlockchange", () => {
+  });
+
+  document.addEventListener("mousemove", (e) => {
+    if (document.pointerLockElement !== canvas) return;
+    yaw   -= e.movementX * 0.002;
+    pitch -= e.movementY * 0.002;
+    pitch  = Math.max(-Math.PI * 0.4, Math.min(Math.PI * 0.4, pitch));
+    avatarGroup.rotation.y = yaw;
+    camera.rotation.x      = pitch;
+  });
 }
