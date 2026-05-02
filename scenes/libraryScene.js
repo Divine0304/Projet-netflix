@@ -625,5 +625,13 @@ export default function libraryScene() {
           avatarGroup.position.x -= dx * speed;
           avatarGroup.position.z -= dz * speed;
         }
+      const dist = Math.sqrt(avatarGroup.position.x ** 2 + avatarGroup.position.z ** 2);
+      if (dist > ROOM_RADIUS - 1.5) {
+        const s = (ROOM_RADIUS - 1.5) / dist;
+        avatarGroup.position.x *= s;
+        avatarGroup.position.z *= s;
+      }
+      avatarGroup.position.y = 0;
+    }
   
 }
