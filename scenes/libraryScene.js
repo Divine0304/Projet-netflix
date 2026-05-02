@@ -598,4 +598,32 @@ export default function libraryScene() {
     avatarGroup.rotation.y = yaw;
     camera.rotation.x      = pitch;
   });
+
+  const keys = {};
+    window.addEventListener("keydown", e => { keys[e.code] = true; });
+    window.addEventListener("keyup",   e => { keys[e.code] = false; });
+  
+    resize(camera, renderer);
+
+  const clock = new THREE.Clock();
+  
+    function animate() {
+      requestAnimationFrame(animate);
+      const elapsed = clock.getElapsedTime();
+      if (!quizOpen && !introActive) {
+        const speed = 0.06;
+        if (keys["KeyA"] || keys["ArrowLeft"]  || keys["KeyQ"]) { yaw += 0.03; avatarGroup.rotation.y = yaw; }
+        if (keys["KeyD"] || keys["ArrowRight"])                  { yaw -= 0.03; avatarGroup.rotation.y = yaw; }
+
+        const dx = Math.sin(yaw);
+        const dz = Math.cos(yaw);
+        if (keys["KeyW"] || keys["ArrowUp"]   || keys["KeyZ"]) {
+          avatarGroup.position.x += dx * speed;
+          avatarGroup.position.z += dz * speed;
+        }
+        if (keys["KeyS"] || keys["ArrowDown"]) {
+          avatarGroup.position.x -= dx * speed;
+          avatarGroup.position.z -= dz * speed;
+        }
+  
 }
