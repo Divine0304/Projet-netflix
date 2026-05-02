@@ -633,5 +633,49 @@ export default function libraryScene() {
       }
       avatarGroup.position.y = 0;
     }
+  }
+
+  torchData.forEach((t, i) => {
+        const f = 0.85 + Math.sin(elapsed * 3.8 + i * 1.7) * 0.12 + Math.sin(elapsed * 8.3 + i * 0.9) * 0.05;
+        t.light.intensity = t.base * f;
+        t.flame.scale.setScalar(0.88 + Math.sin(elapsed * 6 + i) * 0.1);
+        t.halo.scale.setScalar(0.9  + Math.sin(elapsed * 4 + i * 0.7) * 0.14);
+        t.halo.material.opacity = 0.11 + Math.sin(elapsed * 5 + i) * 0.05;
+      });
+
+      candlePointLight.intensity = 5.0 + Math.sin(elapsed * 4.5) * 0.6 + Math.sin(elapsed * 9.2) * 0.2;
+      candleFlame.scale.setScalar(0.9 + Math.sin(elapsed * 5.5) * 0.08);
+
+      lustreLight.intensity = 20.0 + Math.sin(elapsed * 0.5) * 1.0;
+      lustreFlames.forEach((lf, i) => {
+        lf.mesh.scale.setScalar(0.9 + Math.sin(elapsed * 5 + i * 1.3) * 0.08);
+      });
+
+      cursedGlow.intensity = 2.0 + Math.sin(elapsed * 0.8) * 0.9;
+
+      bloodLight.intensity  = 4.0 + Math.sin(elapsed * 1.4) * 1.5;
+      bloodLight2.intensity = 3.0 + Math.sin(elapsed * 1.4 + Math.PI) * 1.2;
+
+      if (!quizOpen && !introActive) {
+        const fpPointer = document.pointerLockElement === canvas
+          ? new THREE.Vector2(0, 0)
+          : pointer;
+        raycaster.setFromCamera(fpPointer, camera);
+        const hits = raycaster.intersectObjects(allMeshes);
+        if (hits.length > 0) {
+          const { filmId, level } = hits[0].object.userData;
+          if (filmId !== hoveredFilmId) {
+            hoveredFilmId = filmId;
+            tooltip.style.display = "block";
+            tooltip.textContent   = !scoreState.unlocked.includes(level) ? "🔒 Verrouillé" : "👁 Cliquer pour défier";
+          }
+        } else {
+          hoveredFilmId = null;
+          tooltip.style.display = "none";
+        }
+      }
   
-}
+      renderer.render(scene, camera);
+    }
+  
+animate();
