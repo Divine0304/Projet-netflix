@@ -179,7 +179,8 @@ const films = [
       color: 0x8b4513,
       points: 500,
     },
-    {}
+    {
+      
 
     
 
