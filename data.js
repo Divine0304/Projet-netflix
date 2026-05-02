@@ -190,15 +190,7 @@ const films = {
       points: 500,
     },
      ],
+     {
 
 export default films;
-
-
-    
-
-
-    
-
-      ]
-         
 
