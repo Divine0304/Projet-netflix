@@ -84,12 +84,13 @@ const films = {
       points: 200,
     },
     {
-        id: "sharknado",
-      title: "Nature Prédatrice",
-      answers: ["nature predatrice", "nature prédatrice", "sharknado"],
-      hint: "Quand les tornades rencontrent les requins...",
-      object: "tornado",
-      color: 0x4169e1,
+       
+      id: "the_meg",
+      title: "The Meg",
+      answers: ["the meg", "en eaux troubles", "mégalodon", "megalodon"],
+      hint: "Un requin préhistorique géant remonte des profondeurs de la fosse des Mariannes...",
+      object: "shark_tooth",
+      color: 0x0077be, // Bleu océan profond
       points: 200,
     },
 ],
