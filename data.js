@@ -152,6 +152,38 @@ const films = [
       color: 0x4a4a4a,
       points: 500,
     },
+    {
+        id: "monstre",
+      title: "Monstre",
+      answers: ["monstre", "monster"],
+      hint: "Un masque fait de chair humaine...",
+      object: "mask",
+      color: 0xd2b48c,
+      points: 500,
+    },
+    {
+      id: "hautes_herbes",
+      title: "Dans les Hautes Herbes",
+      answers: ["dans les hautes herbes", "in the tall grass"],
+      hint: "Un champ de maïs dont on ne ressort jamais...",
+      object: "grass",
+      color: 0x556b2f,
+      points: 500,
+    },
+    {
+        id: "viking_wolf",
+      title: "Viking Wolf",
+      answers: ["viking wolf"],
+      hint: "Une morsure venue des fjords norvégiens...",
+      object: "bite",
+      color: 0x8b4513,
+      points: 500,
+    },
+    {}
+
+    
+
+
     
 
       ]
