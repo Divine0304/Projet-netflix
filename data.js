@@ -7,7 +7,7 @@ const films = {
       hint: "Un livre maudit qui écrit ses propres histoires...",
       object: "book",
       color: 0x8b0000,
-      points: 100,
+      points : 100
     },
     {
       id: "bird_box",
