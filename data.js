@@ -6,8 +6,8 @@ const films = {
       answers: ["histoires terrifiantes", "scary stories to tell in the dark", "histoires terrifiantes à raconter dans le noir"],
       hint: "Un livre maudit qui écrit ses propres histoires...",
       object: "book",
-      color: 0x8b0000,
-      points : 100
+      
+      points : 100,
     },
     {
       id: "bird_box",
@@ -15,7 +15,7 @@ const films = {
       answers: ["bird box"],
       hint: "Ne jamais ouvrir les yeux dehors...",
       object: "blindfold",
-      color: 0xf5f5dc,
+
       points: 100,
     },
     {
@@ -24,7 +24,7 @@ const films = {
       answers: ["mercredi", "wednesday"],
       hint: "Une jeune fille sombre dans une académie étrange...",
       object: "hand",
-      color: 0x2d5a27,
+      
       points: 100,
     },
     {
@@ -33,7 +33,7 @@ const films = {
       answers: ["stranger things"],
       hint: "Une petite ville, un monde à l'envers...",
       object: "lights",
-      color: 0xff6600,
+      
       points: 100,
     },
     {
@@ -42,7 +42,7 @@ const films = {
       answers: ["frankenstein"],
       hint: "Créé par la science, rejeté par les hommes...",
       object: "monster",
-      color: 0x4a7c59,
+      
       points: 100,
     },
 ],
@@ -53,7 +53,7 @@ const films = {
       answers: ["army of the dead", "army of dead"],
       hint: "Un coffre-fort au milieu d'une ville de zombies...",
       object: "safe",
-      color: 0x8b7355,
+      
       points: 200,
     },
     {
@@ -62,7 +62,7 @@ const films = {
       answers: ["troll"],
       hint: "Une créature de pierre réveillée dans les montagnes norvégiennes...",
       object: "troll",
-      color: 0x696969,
+      
       points: 200,
     },
     {
@@ -71,7 +71,7 @@ const films = {
       answers: ["sous la seine", "under paris"],
       hint: "Un prédateur dans la capitale française...",
       object: "fin",
-      color: 0x1a5276,
+     
       points: 200,
     },
     {
@@ -80,7 +80,7 @@ const films = {
       answers: ["anaconda"],
       hint: "Le plus grand prédateur de la jungle amazonienne...",
       object: "snake",
-      color: 0x2d5016,
+     
       points: 200,
     },
     {
@@ -90,7 +90,7 @@ const films = {
       answers: ["the meg", "en eaux troubles", "mégalodon", "megalodon"],
       hint: "Un requin préhistorique géant remonte des profondeurs de la fosse des Mariannes...",
       object: "shark_tooth",
-      color: 0x0077be, // Bleu océan profond
+      
       points: 200,
     },
 ],
@@ -101,7 +101,7 @@ const films = {
       answers: ["sans un bruit", "a quiet place"],
       hint: "Le moindre son peut être fatal...",
       object: "silence",
-      color: 0xd4af37,
+      
       points: 300,
     },
     {
@@ -110,7 +110,7 @@ const films = {
       answers: ["day shift"],
       hint: "Un chasseur de vampires à Los Angeles...",
       object: "vampire",
-      color: 0x4b0082,
+     
       points: 300,
     },
     {
@@ -120,7 +120,7 @@ const films = {
       answers: ["the silence", "le silence"],
       hint: "Des créatures aveugles qui chassent au son...",
       object: "vesp",
-      color: 0x8b8682,
+     
       points: 300,
     },
     {
@@ -129,7 +129,7 @@ const films = {
       answers: ["nobody sleeps in the woods tonight", "nobody sleeps"],
       hint: "Deux silhouettes identiques dans les bois polonais...",
       object: "twins",
-      color: 0x3d1c02,
+      
       points: 300,
     },
     {
@@ -138,7 +138,7 @@ const films = {
       answers: ["le rituel", "the ritual"],
       hint: "Un dieu nordique oublié rôde dans la forêt suédoise...",
       object: "antler",
-      color: 0x1c3a1c,
+     
       points: 300,
     },
 
@@ -150,7 +150,7 @@ const films = {
       answers: ["personne ne sort d'ici vivant", "no one gets out alive"],
       hint: "Une pension glauque et une boîte qui ne devrait pas exister...",
       object: "stonebox",
-      color: 0x4a4a4a,
+      
       points: 500,
     },
     {
@@ -159,7 +159,7 @@ const films = {
       answers: ["monstre", "monster"],
       hint: "Un masque fait de chair humaine...",
       object: "mask",
-      color: 0xd2b48c,
+      
       points: 500,
     },
     {
@@ -168,7 +168,7 @@ const films = {
       answers: ["dans les hautes herbes", "in the tall grass"],
       hint: "Un champ de maïs dont on ne ressort jamais...",
       object: "grass",
-      color: 0x556b2f,
+     
       points: 500,
     },
     {
@@ -177,7 +177,7 @@ const films = {
       answers: ["viking wolf"],
       hint: "Une morsure venue des fjords norvégiens...",
       object: "bite",
-      color: 0x8b4513,
+      
       points: 500,
     },
     {
@@ -187,7 +187,7 @@ const films = {
       answers: ["sweet home"],
       hint: "Des protéines qui mutent dans un immeuble coréen...",
       object: "vial",
-      color: 0x00ff7f,
+     
       points: 500,
     },
      ],
