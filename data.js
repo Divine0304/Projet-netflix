@@ -189,6 +189,11 @@ const films = [
       color: 0x00ff7f,
       points: 500,
     },
+     ],
+    },
+
+export default films;
+
 
     
 
