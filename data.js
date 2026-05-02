@@ -1,4 +1,4 @@
-const films = [
+const films = {
      evident: [
          {
       id: "sarah_bellows",
@@ -190,7 +190,6 @@ const films = [
       points: 500,
     },
      ],
-    },
 
 export default films;
 
