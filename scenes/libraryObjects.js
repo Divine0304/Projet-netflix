@@ -1,80 +1,50 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
-const loader = new GLTFLoader();
+// Création du manager pour synchroniser le chargement[cite: 1, 3]
+const manager = new THREE.LoadingManager();
+const loader = new GLTFLoader(manager);
 
-// ─── GLB — niveau Évident ─────────────────────────────────────────────────
 const GLB_OBJECTS = ["book", "blindfold", "hand", "demogorgon", "monster"];
 
-// Taille cible souhaitée pour chaque modèle (hauteur max en unités Three.js)
-// On calcule l'échelle dynamiquement à partir du bounding box réel du GLB
 const GLB_TARGET_HEIGHT = {
-  book:       0.55,   // Plus grand pour la visibilité
-  blindfold:  0.40,   // Un peu moins haut car c'est un objet plat
-  hand:       0.50,   
-  demogorgon: 0.70,   
-  monster:    0.60,  // Frankenstein
+  book: 0.55, blindfold: 0.40, hand: 0.50, demogorgon: 0.70, monster: 0.60,
 };
 
-// Décalage Y supplémentaire après centrage (pour poser l'objet à plat sur l'étagère)
 const GLB_Y_OFFSET = {
-  book:       0.5,
-  blindfold:  0.04,
-  hand:       0.0,
-  demogorgon: 0.0,
-  monster:    0.0,
+  book: 0.5, blindfold: 0.04, hand: 0.0, demogorgon: 0.0, monster: 0.0,
 };
 
-// ─── Chargement GLB avec mise à l'échelle automatique ────────────────────
-function createGLBObject(film) {
+// Fonction optimisée avec callback onLoaded[cite: 1]
+function createGLBObject(film, onLoaded) {
   const group = new THREE.Group();
-
   loader.load(
     `/assets/models/${film.object}.glb`,
     (gltf) => {
       const model = gltf.scene;
-
-      // 1. Calculer le bounding box du modèle à l'échelle 1
       model.scale.setScalar(1);
-      const box    = new THREE.Box3().setFromObject(model);
-      const size   = box.getSize(new THREE.Vector3());
+      const box = new THREE.Box3().setFromObject(model);
+      const size = box.getSize(new THREE.Vector3());
       const maxDim = Math.max(size.x, size.y, size.z);
-
-      // 2. Calculer l'échelle pour atteindre la hauteur cible
       const targetH = GLB_TARGET_HEIGHT[film.object] ?? 0.30;
-      const scale   = targetH / maxDim;
-      model.scale.setScalar(scale);
+      model.scale.setScalar(targetH / maxDim);
 
-      // 3. Repositionner : base du modèle à y=0 dans le groupe
-      const box2   = new THREE.Box3().setFromObject(model);
+      const box2 = new THREE.Box3().setFromObject(model);
       const center = box2.getCenter(new THREE.Vector3());
-      model.position.x = -center.x;
-      model.position.z = -center.z;
-      model.position.y = -box2.min.y + (GLB_Y_OFFSET[film.object] ?? 0);
+      model.position.set(-center.x, -box2.min.y + (GLB_Y_OFFSET[film.object] ?? 0), -center.z);
 
-      // 4. Ombres
       model.traverse(child => {
         if (child.isMesh) {
-          child.castShadow    = true;
+          child.castShadow = true;
           child.receiveShadow = true;
-          child.userData      = { ...group.userData };
+          // Important pour le Raycaster[cite: 1, 3]
+          child.userData = { filmId: film.id, level: film.level, film, parentObj: group };
         }
       });
-
       group.add(model);
-    },
-    undefined,
-    (err) => {
-      console.warn(`[libraryObjects] GLB manquant : ${film.object}.glb`, err);
-      const fb = new THREE.Mesh(
-        new THREE.SphereGeometry(0.14, 10, 10),
-        new THREE.MeshStandardMaterial({ color: film.color ?? 0xff2200, roughness: 0.7 })
-      );
-      fb.userData = { ...group.userData };
-      group.add(fb);
+      if (onLoaded) onLoaded(group);
     }
   );
-
   return group;
 }
 
