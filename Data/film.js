@@ -156,3 +156,5 @@ function checkAnswer(id, userInput) {
     const playerAttempt = userInput.toLowerCase().trim();
     return trueTitle === playerAttempt;
 }
+
+export default filmsData;
