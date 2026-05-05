@@ -80,13 +80,15 @@ function openQuiz(film, level, onClose) {
       const isCorrect = film.answers.some(a => normalize(a) === userAnswer);
 
       if (isCorrect) {
-        state = score.addScore(state, pointsForThis);
-        state = score.markCompleted(state, film.id, level);
-        feedback.textContent = "✅ Bravo ! C'est bien " + film.title;
-        feedback.className = "quiz-feedback success";
-        submitBtn.disabled = true;
-        hintBtn.disabled = true;
-        setTimeout(() => { closeQuiz(overlay, onClose, "success"); }, 1800);
+      state = score.addScore(state, pointsForThis);
+      state = score.markCompleted(state, film.id, level);
+      feedback.textContent = "✅ Bravo ! C'est bien " + film.title;
+      feedback.className = "quiz-feedback success";
+      submitBtn.disabled = true;
+
+      setTimeout(() => { 
+          closeQuiz(overlay, onClose, "success"); 
+      }, 1800);
       } else {
         triesLeft--;
         updateTries();

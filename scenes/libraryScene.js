@@ -431,15 +431,41 @@ for (let i = 0; i < 12; i++) {
   bloodLight2.position.set(-4, ROOM_HEIGHT - 1.2, -4);
   scene.add(bloodLight2);
 
-  // ═══════════════════════════════════════════════════════
-  // OBJETS SUR LES ÉTAGÈRES
-  // ═══════════════════════════════════════════════════════
-  const meshMap   = libraryObjects.placeObjects(scene, films, SHELF_RADIUS, scoreState);
-  const allMeshes = Object.values(meshMap).flat();
+const { meshMap, manager } = libraryObjects.placeObjects(scene, films, SHELF_RADIUS, scoreState);
 
-  // ═══════════════════════════════════════════════════════
-  // RAYCASTER
-  // ═══════════════════════════════════════════════════════
+let allMeshes = [];
+
+manager.onLoad = () => {
+    allMeshes = Object.values(meshMap).flat();
+    const subText = document.getElementById("intro-sub");
+    if (subText) {
+        subText.textContent = "— CLIQUER POUR ENTRER —";
+        subText.style.color = "#70c870";
+    }
+};
+
+manager.onProgress = (url, itemsLoaded, itemsTotal) => {
+    const subText = document.getElementById("intro-sub");
+    if (subText) subText.textContent = `Chargement : ${Math.round(itemsLoaded/itemsTotal*100)}%`;
+};
+
+manager.onProgress = (url, itemsLoaded, itemsTotal) => {
+    const progress = Math.round((itemsLoaded / itemsTotal) * 100);
+    const subText = document.getElementById("intro-sub");
+    if (subText) subText.textContent = `Chargement des reliques : ${progress}%`;
+};
+
+manager.onLoad = () => {
+    const subText = document.getElementById("intro-sub");
+    if (subText) {
+        subText.textContent = "— CLIQUER POUR ENTRER —";
+        subText.style.color = "#70c870";
+        subText.style.textShadow = "0 0 10px #00ff00";
+    }
+    updateAllMeshes(); 
+};
+
+
   const raycaster = new THREE.Raycaster();
   const pointer   = new THREE.Vector2();
   let hoveredFilmId = null;
