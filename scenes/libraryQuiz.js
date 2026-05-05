@@ -1,5 +1,18 @@
 import score from "./libraryScore.js";
 
+const TMDB_API_KEY = "73e823d4f7cd625d37846e831c2360b2"; 
+const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
+
+async function fetchPoster(title) {
+  try {
+    const resp = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(title)}`);
+    const data = await resp.json();
+    return data.results?.[0]?.poster_path ? `${IMAGE_BASE_URL}${data.results[0].poster_path}` : null;
+  } catch (err) {
+    return null;
+  }
+}
+
 let state = null;
 let currentFilm = null;
 let triesLeft = 3;
@@ -75,41 +88,25 @@ function openQuiz(film, level, onClose) {
 
     input.focus();
 
-    function handleSubmit() {
-      const userAnswer = normalize(input.value);
-      const isCorrect = film.answers.some(a => normalize(a) === userAnswer);
-
-      if (isCorrect) {
-      state = score.addScore(state, pointsForThis);
-      state = score.markCompleted(state, film.id, level);
-      feedback.textContent = "✅ Bravo ! C'est bien " + film.title;
-      feedback.className = "quiz-feedback success";
-      submitBtn.disabled = true;
-
-      setTimeout(() => { 
-          closeQuiz(overlay, onClose, "success"); 
-      }, 1800);
-      } else {
-        triesLeft--;
-        updateTries();
-        pointsForThis = Math.max(0, pointsForThis - Math.floor(film.points * 0.2));
-        document.getElementById("quiz-points").textContent = `+${pointsForThis} pts possibles`;
-
-        if (triesLeft === 0) {
-          state = score.markFailed(state, film.id);
-          feedback.textContent = `❌ C'était : ${film.title}`;
-          feedback.className = "quiz-feedback fail";
-          submitBtn.disabled = true;
-          hintBtn.disabled = true;
-          setTimeout(() => { closeQuiz(overlay, onClose, "fail"); }, 2200);
-        } else {
-          feedback.textContent = `Mauvaise réponse... ${triesLeft} essai${triesLeft > 1 ? 's' : ''} restant${triesLeft > 1 ? 's' : ''}`;
-          feedback.className = "quiz-feedback wrong";
-          input.value = "";
-          input.focus();
-        }
+  // Dans libraryQuiz.js
+  async function handleSubmit() { 
+    const userAnswer = normalize(input.value);
+    const isCorrect = film.answers.some(a => normalize(a) === userAnswer);
+    if (isCorrect) {
+      const urlAffiche = await fetchPoster(film.title); 
+      
+      let message = `Bravo ! +${film.points} points.`;
+      
+      if (urlAffiche) {
+          message += `<br>[API EXTERNE] : Affiche trouvée sur TMDB !`;
       }
+      
+      feedback.innerHTML = `${message}<br><img src="${urlAffiche}" style="width:100px; margin-top:10px; border-radius:4px; border:1px solid #2a5a2a;">`;
+      feedback.className = "quiz-feedback success";
+      
+      // N'oublie pas de marquer le film comme réussi dans le scoreState ici
     }
+  }
 
     submitBtn.addEventListener("click", handleSubmit);
     input.addEventListener("keydown", (e) => { if (e.key === "Enter") handleSubmit(); });

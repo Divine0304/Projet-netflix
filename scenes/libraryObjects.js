@@ -43,7 +43,8 @@ function createGLBObject(film, onLoaded) {
 
 export function placeObjects(scene, films, shelfRadius, state) {
   const levels = ["evident", "facile", "moyen", "difficile"];
-  const shelfHeights = [0.665, 1.415, 2.215, 3.065];
+  const shelfHeights = [1.50, 2.25, 3.00, 3.75];
+  
   const meshMap = {};
 
   levels.forEach((level, li) => {
@@ -65,10 +66,9 @@ export function placeObjects(scene, films, shelfRadius, state) {
       scene.add(obj);
     });
   });
-  return { meshMap, manager }; // Retourne le manager pour la scène[cite: 9]
+  return { meshMap, manager };
 }
 
-// ─── Styles visuels ───────────────────────────────────────────────────────
 function applyCompletedStyle(obj) {
   obj.traverse(child => {
     if (child.isMesh && child.material) {

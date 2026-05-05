@@ -125,7 +125,6 @@ export default function libraryScene() {
     scene.add(rib);
   }
 
-  // Médaillon central en fer forgé
   const ceilMedaillon = new THREE.Mesh(
     new THREE.TorusGeometry(1.3, 0.055, 8, 48), ironMat
   );
@@ -133,12 +132,10 @@ export default function libraryScene() {
   ceilMedaillon.position.y = ROOM_HEIGHT - 0.04;
   scene.add(ceilMedaillon);
 
-  // Chaîne du lustre
   const lustreChain = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.022, 2.8, 6), ironMat);
   lustreChain.position.set(0, ROOM_HEIGHT - 1.4, 0);
   scene.add(lustreChain);
 
-  // Anneaux du lustre
   const lustreY = ROOM_HEIGHT - 2.8;
   for (let r of [1.0, 0.5]) {
     const ring = new THREE.Mesh(new THREE.TorusGeometry(r, 0.035, 8, 36), ironMat);
@@ -147,7 +144,6 @@ export default function libraryScene() {
     scene.add(ring);
   }
 
-  // 8 bougies sur le lustre extérieur
   const lustreFlames = [];
   for (let i = 0; i < 8; i++) {
     const ang = (i / 8) * Math.PI * 2;
@@ -174,22 +170,17 @@ export default function libraryScene() {
     scene.add(lfl);
   }
 
-  // Lumière principale lustre — éclaire toute la pièce
   const lustreLight = new THREE.PointLight(0xffbb66, 18.0, 28);
   lustreLight.position.set(0, lustreY + 0.1, 0);
   lustreLight.castShadow = true;
   lustreLight.shadow.mapSize.set(1024, 1024);
   scene.add(lustreLight);
 
-  // Deuxième lumière lustre légèrement décalée — réduit les zones mortes
   const lustreLight2 = new THREE.PointLight(0xffaa44, 10.0, 24);
   lustreLight2.position.set(0, ROOM_HEIGHT - 0.3, 0);
   scene.add(lustreLight2);
 
-  // ═══════════════════════════════════════════════════════
-  // ÉTAGÈRES CIRCULAIRES (4 niveaux)
-  // ═══════════════════════════════════════════════════════
-  const shelfHeights = [0.6, 1.35, 2.15, 3.0];
+  const shelfHeights = [1.45, 2.20, 2.95, 3.70];
   const shelfMat = new THREE.MeshStandardMaterial({ color: 0x160b03, roughness: 0.91, metalness: 0.05 });
 
   shelfHeights.forEach(h => {
@@ -434,21 +425,6 @@ for (let i = 0; i < 12; i++) {
 const { meshMap, manager } = libraryObjects.placeObjects(scene, films, SHELF_RADIUS, scoreState);
 
 let allMeshes = [];
-
-manager.onLoad = () => {
-    allMeshes = Object.values(meshMap).flat();
-    const subText = document.getElementById("intro-sub");
-    if (subText) {
-        subText.textContent = "— CLIQUER POUR ENTRER —";
-        subText.style.color = "#70c870";
-    }
-};
-
-manager.onProgress = (url, itemsLoaded, itemsTotal) => {
-    const subText = document.getElementById("intro-sub");
-    if (subText) subText.textContent = `Chargement : ${Math.round(itemsLoaded/itemsTotal*100)}%`;
-};
-
 manager.onProgress = (url, itemsLoaded, itemsTotal) => {
     const progress = Math.round((itemsLoaded / itemsTotal) * 100);
     const subText = document.getElementById("intro-sub");
@@ -456,13 +432,13 @@ manager.onProgress = (url, itemsLoaded, itemsTotal) => {
 };
 
 manager.onLoad = () => {
+    allMeshes = Object.values(meshMap).flat(); // Remplit le raycaster
     const subText = document.getElementById("intro-sub");
     if (subText) {
         subText.textContent = "— CLIQUER POUR ENTRER —";
         subText.style.color = "#70c870";
         subText.style.textShadow = "0 0 10px #00ff00";
     }
-    updateAllMeshes(); 
 };
 
 
@@ -498,9 +474,9 @@ manager.onLoad = () => {
     const hits = raycaster.intersectObjects(allMeshes);
     if (hits.length > 0) {
       const { filmId, level, film } = hits[0].object.userData;
-      if (!scoreState.unlocked.includes(level)) {
-        showToast("🔒 Niveau verrouillé — complète le niveau précédent !");
-        return;
+      if (!scoreState.unlocked.includes(level.toLowerCase())) { // Ajoute .toLowerCase()
+          showToast("🔒 Niveau verrouillé !");
+          return;
       }
       quizOpen = true;
       libraryQuiz.openQuiz(film, level, (result, newState) => {
@@ -697,7 +673,7 @@ manager.onLoad = () => {
 
     // Déplacement FPS
     if (!quizOpen && !introActive) {
-      const speed = 0.06;
+      const speed = 0.15;
       const dir   = new THREE.Vector3();
       camera.getWorldDirection(dir);
       dir.y = 0;
