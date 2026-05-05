@@ -1,4 +1,4 @@
-const filmsData = [
+export const filmsData = [
     {
         "title": "Army of the Dead",
         "description": "After a zombie outbreak in Las Vegas, a group of mercenaries takes the ultimate gamble by venturing into the quarantine zone for the greatest heist ever.",
@@ -142,14 +142,14 @@ const filmsData = [
 ];
 
 // Logique de jeu
-function getFilmById(id) {
+export function getFilmById(id) {
     if (id >= 0 && id < filmsData.length) {
         return filmsData[id];
     }
     return null;
 }
 
-function checkAnswer(id, userInput) {
+export function checkAnswer(id, userInput) {
     const film = getFilmById(id);
     if (!film) return false;
     const trueTitle = film.title.toLowerCase().trim();
