@@ -101,7 +101,7 @@ const films = {
       answers: ["sans un bruit", "a quiet place"],
       hint: "Le moindre son peut être fatal...",
       object: "silence",
-      color: 0xd4af37
+      color: 0xd4af37,
       points: 300,
     },
     {
