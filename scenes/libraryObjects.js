@@ -346,83 +346,49 @@ function createObject(film) {
   return mesh;
 }
 
-// ─── Placement ────────────────────────────────────────────────────────────
 function placeObjects(scene, films, shelfRadius, state) {
   const levels = ["evident", "facile", "moyen", "difficile"];
-
-  // Hauteurs des planches dans libraryScene.js : [0.6, 1.35, 2.15, 3.0]
-  // On pose les objets SUR la planche (épaisseur 0.065) → +0.065
   const shelfHeights = [0.665, 1.415, 2.215, 3.065];
-
-  // Rayon de placement : légèrement en retrait du mur pour être visible
-  // shelfRadius = SHELF_RADIUS - 0.25 (rayon du torus de l'étagère)
-  // On place à shelfRadius - 0.55 pour être bien au centre de la planche
   const placeRadius = shelfRadius - 0.55;
-
   const meshMap = {};
 
   levels.forEach((level, li) => {
-    const filmsInLevel = films[level];
-    const count        = filmsInLevel.length; // 5 par niveau
+    films[level].forEach((film, i) => {
+      const count = films[level].length;
+      const gapAngle = 0.55;
+      const angle = (gapAngle / 2) + ((i + 0.5) / count) * (Math.PI * 2 - gapAngle);
 
-    filmsInLevel.forEach((film, i) => {
-      // ── Angle de placement ─────────────────────────────
-      // Porte à angle=0 (z+). On évite cette zone avec gapAngle.
-      // On répartit les 5 objets uniformément sur ~320° restants.
-      // (i + 0.5) / count centre chaque objet dans sa tranche.
-      const gapAngle   = 0.55;
-      const available  = Math.PI * 2 - gapAngle;
-      const startAngle = gapAngle / 2;
-      const angle      = startAngle + ((i + 0.5) / count) * available;
-
-      const x = Math.sin(angle) * placeRadius;
-      const z = Math.cos(angle) * placeRadius;
-      const y = shelfHeights[li];
-
-      // ── Créer l'objet ──────────────────────────────────
-      const obj = GLB_OBJECTS.includes(film.object)
-        ? createGLBObject(film)
+      const obj = GLB_OBJECTS.includes(film.object) 
+        ? createGLBObject(film, (group) => {
+            group.traverse(c => { 
+              if(c.isMesh) { 
+                if(!meshMap[film.id]) meshMap[film.id] = [];
+                meshMap[film.id].push(c);
+              }
+            });
+          })
         : createObject(film);
 
-      // Position finale : posé sur l'étagère, face au centre
-      obj.position.set(x, y, z);
-
-      // La rotation y oriente l'objet vers le centre de la pièce
-      // angle pointe vers l'extérieur → on tourne de PI pour faire face au centre
+      obj.position.set(Math.sin(angle) * placeRadius, shelfHeights[li], Math.cos(angle) * placeRadius);
       obj.rotation.y = angle + Math.PI;
-
-      // userData pour le raycaster
       obj.userData = { filmId: film.id, level, film };
 
-      // États visuels
-      if (state.completed.includes(film.id))   applyCompletedStyle(obj);
+      if (state.completed.includes(film.id)) applyCompletedStyle(obj);
       else if (state.failed.includes(film.id)) applyFailedStyle(obj);
-      if (!state.unlocked.includes(level))     applyLockedStyle(obj);
+      if (!state.unlocked.includes(level)) applyLockedStyle(obj);
 
       scene.add(obj);
 
-      // ── Enregistrement raycaster ───────────────────────
-      function registerMeshes() {
-        obj.traverse(child => {
-          if (child.isMesh) {
-            child.userData = { filmId: film.id, level, film, parentObj: obj };
-            if (!meshMap[film.id]) meshMap[film.id] = [];
-            if (!meshMap[film.id].includes(child)) meshMap[film.id].push(child);
-          }
-        });
-      }
-
-      registerMeshes(); // immédiat pour géométries Three.js
-
-      // Pour les GLB : re-traverser après chargement asynchrone
-      if (GLB_OBJECTS.includes(film.object)) {
-        setTimeout(registerMeshes, 500);
-        setTimeout(registerMeshes, 1500);
+      if (!GLB_OBJECTS.includes(film.object)) {
+        obj.traverse(c => { if(c.isMesh) {
+          c.userData = { filmId: film.id, level, film, parentObj: obj };
+          if(!meshMap[film.id]) meshMap[film.id] = [];
+          meshMap[film.id].push(c);
+        }});
       }
     });
   });
-
-  return meshMap;
+  return { meshMap, manager }; // Retourne le manager pour libraryScene[cite: 1, 3]
 }
 
 // ─── Styles visuels ───────────────────────────────────────────────────────
