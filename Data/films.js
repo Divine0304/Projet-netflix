@@ -155,6 +155,6 @@ export function checkAnswer(id, userInput) {
     const trueTitle = film.title.toLowerCase().trim();
     const playerAttempt = userInput.toLowerCase().trim();
     return trueTitle === playerAttempt;
-}git 
+}
 
 export default filmsData;

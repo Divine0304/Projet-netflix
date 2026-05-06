@@ -79,7 +79,7 @@ overlay.innerHTML = `
       </div>
       
       <button class="brass-btn" id="quiz-hint">
-        <i class="fa-solid fa-key"></i> Indice (-50 pts)
+        <i class="fa-solid fa-key"></i> Indice (-3 pts)
       </button>
       <div class="quiz-feedback" id="quiz-feedback"></div>
     `}
