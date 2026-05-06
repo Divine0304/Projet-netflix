@@ -40,3 +40,29 @@ canvas.webgl {
   from { opacity: 1; }
   to   { opacity: 0; }
 }
+
+.quiz-panel {
+  background: linear-gradient(160deg, #120900 0%, #1a0d04 60%, #0e0a14 100%);
+  border: 1px solid #6b4c1a;
+  border-radius: 8px;
+  padding: 36px 44px;
+  width: min(520px, 92vw);
+  text-align: center;
+  box-shadow: 0 0 60px rgba(200, 100, 0, 0.15), inset 0 0 40px rgba(0,0,0,0.5);
+  position: relative;
+}
+
+.quiz-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(255,255,255,0.01) 2px,
+    rgba(255,255,255,0.01) 4px
+  );
+  pointer-events: none;
+}
