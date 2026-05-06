@@ -1,5 +1,4 @@
-/* Reset & Base */
-
+/*Reset & Base*/
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
@@ -14,8 +13,7 @@ canvas.webgl {
   height: 100vh;
 }
 
-/* Quiz Overlay */
-
+/*Quiz Overlay*/
 #quiz-overlay {
   position: fixed;
   inset: 0;
@@ -41,28 +39,194 @@ canvas.webgl {
   to   { opacity: 0; }
 }
 
-.quiz-panel {
-  background: linear-gradient(160deg, #120900 0%, #1a0d04 60%, #0e0a14 100%);
-  border: 1px solid #6b4c1a;
-  border-radius: 8px;
-  padding: 36px 44px;
-  width: min(520px, 92vw);
-  text-align: center;
-  box-shadow: 0 0 60px rgba(200, 100, 0, 0.15), inset 0 0 40px rgba(0,0,0,0.5);
-  position: relative;
+/*INTERFACE(QUIZ) */
+
+#quiz-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(4, 15, 4, 0.9); /* Filtre vert forêt sombre */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(8px);
 }
 
-.quiz-panel::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 8px;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(255,255,255,0.01) 2px,
-    rgba(255,255,255,0.01) 4px
-  );
-  pointer-events: none;
+/* Le Parchemin jauni */
+.alchemist-panel {
+    background-color: #f2e1ac;
+    background-image: url('https://www.transparenttextures.com/patterns/old-paper.png');
+    padding: 40px;
+    width: min(550px, 95vw);
+    position: relative;
+    box-shadow: 10px 10px 0px rgba(0,0,0,0.3);
+    /* Effet bords irréguliers */
+    clip-path: polygon(1% 2%, 98% 1%, 100% 98%, 2% 99%, 0% 50%);
+    text-align: center;
+}
+
+/* Textes anciens */
+.ancient-title {
+    font-family: 'Jim Nightshade', cursive;
+    color: #2a1b0a;
+    font-size: 38px;
+    margin: 10px 0;
+}
+
+.ancient-instruction {
+    font-family: 'Fondamento', serif;
+    color: #4a3b2a;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+/* Bougies à flamme verte */
+.candle-row {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.small-candle {
+    width: 10px;
+    height: 20px;
+    background: #111; 
+    position: relative;
+    opacity: 0.2;
+    transition: opacity 0.3s ease;
+}
+
+.small-candle.active {
+    opacity: 1;
+}
+
+/* La flamme verte */
+.small-candle.active::before {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: 0;
+    width: 10px;
+    height: 12px;
+    background: #00ff44;
+    border-radius: 50% 50% 20% 20%;
+    box-shadow: 0 0 10px #00ff00;
+    animation: flicker 0.1s infinite alternate;
+}
+
+.parchment-input {
+    background: rgba(0,0,0,0.05);
+    border: 1px solid rgba(0,0,0,0.2);
+    padding: 12px;
+    font-family: 'Fondamento', serif;
+    width: 60%;
+}
+
+.iron-btn {
+    background: #1a1a1a;
+    color: #00ff44;
+    border: 1px solid #333;
+    padding: 12px 20px;
+    font-family: 'MedievalSharp', cursive;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.brass-btn {
+    background: #7a5a2a;
+    color: #f2e1ac;
+    border: 1px solid #4a3a1a;
+    padding: 8px 15px;
+    margin-top: 20px;
+    font-family: 'Fondamento', serif;
+    cursor: pointer;
+}
+
+.quiz-points {
+  color: #c8a030;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  margin-bottom: 18px;
+}
+
+/* Feedback */
+.quiz-feedback {
+  min-height: 22px;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  transition: all 0.3s;
+}
+
+.quiz-feedback.success { color: #7fff80; }
+.quiz-feedback.fail    { color: #ff6060; }
+.quiz-feedback.wrong   { color: #ff9940; }
+.quiz-feedback.hint    { color: #80c8ff; font-style: italic; }
+
+/* Déjà joué */
+.quiz-already { margin: 16px 0 20px; }
+.quiz-success-msg { color: #7fff80; font-size: 15px; }
+.quiz-fail-msg    { color: #ff7060; font-size: 15px; }
+
+.quiz-btn-close {
+  background: none;
+  border: 1px solid #5a3a0a;
+  border-radius: 4px;
+  color: #9a6020;
+  font-family: inherit;
+  font-size: 13px;
+  padding: 8px 20px;
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  transition: all 0.2s;
+}
+.quiz-btn-close:hover { color: #d4a040; border-color: #9a6020; }
+
+.dungeon-bg {
+    background-color: #050505;
+    background-image: 
+        linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)),
+        url('https://www.transparenttextures.com/patterns/dark-matter.png');
+    background-repeat: repeat;
+}
+
+.iron-container {
+    border: 5px solid #1a1a1a;
+    border-image: linear-gradient(to bottom, #333, #000, #333) 1;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 50px;
+    border-radius: 2px;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 1);
+    text-align: center;
+}
+
+.neon-gothic {
+    font-family: 'MedievalSharp', cursive;
+    color: #00ff00;
+    text-shadow: none; 
+    margin: 10px 0;
+}
+
+.title-large {
+    font-family: 'Almendra SC', serif;
+    font-size: clamp(35px, 7vw, 75px);
+    letter-spacing: 2px;
+}
+
+.btn-stone {
+    background: #111;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    font-family: 'Almendra SC', serif;
+    padding: 12px 28px;
+    cursor: pointer;
+    text-transform: uppercase;
+    box-shadow: 0 0 12px rgba(0, 255, 0, 0.3); 
+    transition: all 0.3s ease;
+    margin-top: 20px;
+}
+
+.btn-stone:hover {
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.6);
+    background: #1a1a1a;
 }
