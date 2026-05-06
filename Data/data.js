@@ -32,13 +32,14 @@ filmsData.forEach((f, index) => {
     hint: f.description,
     answers: [f.title],
     points: f.points,
-    object: objectMapping[f.title] || "book"
+    object: objectMapping[f.title] || "book",
+    level: ""
   };
 
-  if (f.difficulty.includes("Évident")) formattedFilms.evident.push(filmObj);
-  else if (f.difficulty.includes("Facile")) formattedFilms.facile.push(filmObj);
-  else if (f.difficulty.includes("Moyen")) formattedFilms.moyen.push(filmObj);
-  else if (f.difficulty.includes("Difficile")) formattedFilms.difficile.push(filmObj);
+  if (f.difficulty.includes("Évident")) { filmObj.level = "evident"; formattedFilms.evident.push(filmObj); }
+  else if (f.difficulty.includes("Facile")) { filmObj.level = "facile"; formattedFilms.facile.push(filmObj); }
+  else if (f.difficulty.includes("Moyen")) { filmObj.level = "moyen"; formattedFilms.moyen.push(filmObj); }
+  else if (f.difficulty.includes("Difficile")) { filmObj.level = "difficile"; formattedFilms.difficile.push(filmObj); }
 });
 
 export default formattedFilms;

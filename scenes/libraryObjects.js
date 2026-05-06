@@ -7,14 +7,13 @@ const loader = new GLTFLoader(manager);
 // Liste de tes fichiers réels pour calibrer leur taille sur l'étagère[cite: 9]
 const GLB_TARGET_HEIGHT = {
   book: 0.55, blindfold: 0.40, hand: 0.50, demogorgon: 0.70, monster: 0.60,
-  safe: 0.50, troll: 0.65, fin: 0.50, snake: 0.45, shark_tooth: 0.40,
+  safe: 0.50, troll: 0.65, fin: 0.50, snake: 0.45, shark_tooth: 0.70,
   vesp: 0.45, vampire: 0.55, moder: 0.70, silence: 0.50, twins: 0.50,
   grass: 0.50, mask: 0.50, stonebox: 0.45, bite: 0.40, vial: 0.45
 };
 
 function createGLBObject(film, onLoaded) {
   const group = new THREE.Group();
-  // On charge dynamiquement selon le mapping de data.js
   loader.load(`/assets/models/${film.object}.glb`, (gltf) => {
       const model = gltf.scene;
       model.scale.setScalar(1);

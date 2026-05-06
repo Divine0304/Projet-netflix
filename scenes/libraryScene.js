@@ -468,27 +468,45 @@ manager.onLoad = () => {
 
   canvas.addEventListener("click", (e) => {
     if (quizOpen || introActive) return;
+    
     pointer.x = (e.clientX / window.innerWidth)  * 2 - 1;
     pointer.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    
     raycaster.setFromCamera(pointer, camera);
     const hits = raycaster.intersectObjects(allMeshes);
+    
     if (hits.length > 0) {
+      // CORRECTION : On récupère bien 'film' et on définit 'lowerLevel'
       const { filmId, level, film } = hits[0].object.userData;
-      if (!scoreState.unlocked.includes(level.toLowerCase())) { // Ajoute .toLowerCase()
+      const lowerLevel = level.toLowerCase();
+
+      if (!scoreState.unlocked.includes(lowerLevel)) {
           showToast("🔒 Niveau verrouillé !");
           return;
       }
-      quizOpen = true;
-      libraryQuiz.openQuiz(film, level, (result, newState) => {
-        scoreState = newState;
-        quizOpen   = false;
-        updateHUD();
-        const meshes = meshMap[filmId];
-        if (meshes && result === "success") {
-          meshes.forEach(m => { if (m.material) { m.material = m.material.clone(); m.material.emissive = new THREE.Color(0xffd700); m.material.emissiveIntensity = 0.5; } });
-        } else if (meshes && result === "fail") {
-          meshes.forEach(m => { if (m.material) { m.material = m.material.clone(); m.material.color = new THREE.Color(0x333333); } });
-        }
+
+      quizOpen = true; // On bloque les clics pendant le quiz
+      libraryQuiz.openQuiz(film, lowerLevel, (result, newState) => {
+          scoreState = newState;
+          quizOpen = false;
+          updateHUD();
+
+          // Mise à jour visuelle immédiate de l'objet sur l'étagère
+          const meshes = meshMap[filmId];
+          if (meshes) {
+              meshes.forEach(m => {
+                  if (m.material) {
+                      m.material = m.material.clone();
+                      if (result === "success") {
+                          m.material.emissive = new THREE.Color(0xffd700);
+                          m.material.emissiveIntensity = 0.5;
+                      } else if (result === "fail") {
+                          m.material.color = new THREE.Color(0x3a3a3a);
+                          m.material.emissiveIntensity = 0;
+                      }
+                  }
+              });
+          }
       });
     }
   });
@@ -519,6 +537,11 @@ manager.onLoad = () => {
       <button id="hud-reset" style="background:none;border:1px solid #1a4a1a;color:#508050;
         cursor:pointer;font-family:inherit;font-size:12px;padding:2px 10px;border-radius:3px;">↺ Reset</button>
     `;
+    if (done === total) {
+        showToast(`🏆 Quête terminée ! Score final : ${scoreState.score} pts`);
+        hud.style.border = "2px solid #ffd700";
+        hud.style.boxShadow = "0 0 20px rgba(255, 215, 0, 0.5)";
+    }
     document.getElementById("hud-reset").addEventListener("click", () => {
       if (confirm("Réinitialiser toute la progression ?")) {
         scoreState = libraryScore.reset();
@@ -566,37 +589,34 @@ manager.onLoad = () => {
   let introActive = true;
   let introPhase  = 0;
 
-  const introOverlay = document.createElement("div");
+    const introOverlay = document.createElement("div");
+  introOverlay.className = "dungeon-bg"; // Applique le fond pierre
   introOverlay.style.cssText = `
-    position:fixed; inset:0; background:#000;
-    display:flex; flex-direction:column;
-    align-items:center; justify-content:center;
-    z-index:500; transition:opacity 1.8s ease; cursor:pointer;
+    position:fixed; inset:0; 
+    display:flex; align-items:center; justify-content:center;
+    z-index:500; transition:opacity 1.8s ease;
   `;
+
   introOverlay.innerHTML = `
-    <div id="intro-text" style="
-      color:#70c870; font-size:clamp(16px,2.5vw,26px);
-      text-align:center; line-height:2.2; letter-spacing:0.12em;
-      max-width:620px; padding:0 24px;
-      text-shadow:0 0 20px #00aa00, 0 0 50px #006600;
-      opacity:0; transition:opacity 2s ease;
-      font-family:'Palatino Linotype',serif;
-    ">
-      Bienvenue dans la<br>
-      <span style="font-size:1.45em;color:#a0ffa0;letter-spacing:0.2em;display:block;margin:8px 0;">
-        Bibliothèque des Damnés
-      </span>
-      <span style="font-size:0.75em;color:#508050;letter-spacing:0.06em;">
-        Tourne. Explore. Si tu oses.
-      </span>
+    <div class="iron-container">
+      <p class="neon-gothic" style="font-size: 20px; margin-bottom: 10px;">
+        Bienvenue dans la
+      </p>
+      
+      <h1 class="neon-gothic" style="font-size: clamp(40px, 8vw, 80px); margin-bottom: 20px; font-family: 'Almendra SC';">
+        Bibliothèque Monstrueuse
+      </h1>
+      
+      <p class="neon-gothic" style="font-size: 24px; margin-bottom: 40px; color: #00cc00;">
+        Tourne. Explorez. Si tu le fais.
+      </p>
+      
+      <button class="btn-stone" id="enter-btn">
+        CLIQUER POUR ENTRER
+      </button>
     </div>
-    <div id="intro-sub" style="
-      color:#2a5a2a; font-size:13px; margin-top:48px;
-      letter-spacing:0.2em; opacity:0; transition:opacity 2s ease 1.2s;
-      font-family:'Palatino Linotype',serif;
-    ">— CLIQUER POUR ENTRER —</div>
   `;
-  document.body.appendChild(introOverlay);
+document.body.appendChild(introOverlay);
 
   setTimeout(() => {
     document.getElementById("intro-text").style.opacity = "1";
@@ -606,17 +626,17 @@ manager.onLoad = () => {
   let autoRotateActive   = false;
   let autoRotateDuration = 0;
 
-  introOverlay.addEventListener("click", () => {
-    if (introPhase !== 0) return;
-    introPhase = 1;
-    introOverlay.style.opacity = "0";
-    setTimeout(() => {
-      introOverlay.remove();
-      introActive        = false;
-      autoRotateActive   = true;
-      autoRotateDuration = 0;
-    }, 1800);
-  });
+  document.getElementById("enter-btn").addEventListener("click", (e) => {
+  e.stopPropagation(); 
+  if (introPhase !== 0) return;
+  introPhase = 1;
+  introOverlay.style.opacity = "0";
+  setTimeout(() => {
+    introOverlay.remove();
+    introActive = false;
+    autoRotateActive = true;
+  }, 1800);
+});
 
   // ═══════════════════════════════════════════════════════
   // NAVIGATION FPS
