@@ -608,7 +608,7 @@ manager.onLoad = () => {
       </h1>
       
       <p class="neon-gothic" style="font-size: 24px; margin-bottom: 40px; color: #00cc00;">
-        Tourne. Explorez. Si tu le fais.
+        Tourne. Explore. Si tu l'oses.
       </p>
       
       <button class="btn-stone" id="enter-btn">

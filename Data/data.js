@@ -1,4 +1,4 @@
-import filmsData from "./film.js";
+import { filmsData } from '../Data/films';
 
 const objectMapping = {
   "Stranger Things": "demogorgon",
