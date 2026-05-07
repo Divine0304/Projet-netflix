@@ -14,7 +14,7 @@ const GLB_TARGET_HEIGHT = {
 
 function createGLBObject(film, onLoaded) {
   const group = new THREE.Group();
-  loader.load(`/assets/models/${film.object}.glb`, (gltf) => {
+  loader.load(`/models/${film.object}.glb`, (gltf) => {
       const model = gltf.scene;
       model.scale.setScalar(1);
       const box = new THREE.Box3().setFromObject(model);
